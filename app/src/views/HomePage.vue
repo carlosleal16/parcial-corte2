@@ -1,56 +1,40 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header>
       <ion-toolbar>
-        <ion-title>Blank</ion-title>
+        <ion-title>Gestión de Reservas</ion-title>
       </ion-toolbar>
     </ion-header>
-
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div>
+    <ion-content class="ion-padding">
+      <FechaHoraReserva @update:fechaHora="reserva.fechaHora = $event" />
+      <DatosCliente @update:cliente="reserva.cliente = $event" />
+      <SeleccionMesa :mesasDisponibles="mesas" @update:mesa="reserva.mesaId = $event" />
+      <ion-button expand="full" @click="guardarReserva">Guardar Reserva</ion-button>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+<script setup>
+import { ref } from 'vue';
+import FechaHoraReserva from '@/components/FechaHoraReserva.vue';
+import DatosCliente from '@/components/DatosCliente.vue';
+import SeleccionMesa from '@/components/SeleccionMesa.vue';
+
+const reserva = ref({
+  fechaHora: '',
+  cliente: {},
+  mesaId: null
+});
+
+const mesas = ref([
+  { id: 1, numero: '1' },
+  { id: 2, numero: '2' },
+  { id: 3, numero: '3' }
+]);
+
+const guardarReserva = () => {
+  console.log('Reserva enviada:', reserva.value);
+  
+};
 </script>
 
-<style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
-</style>
